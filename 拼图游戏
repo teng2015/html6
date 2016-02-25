@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <style type="text/css">
+                body{
+                        margin:0px;
+                        overflow:hidden;
+                }
+                #container{
+                        background-color: #888888;                
+                }
+        </style>
+        <script type="text/javascript" src="kinetic.js"></script>  
+        <script type="text/javascript">
+        function drawImage(imageObj) {
+                var piecesArray=new Array();
+                var horizontalPieces = 4;
+                var verticalPieces = 3;
+                var imageWidth = imageObj.width;
+                var imageHeight = imageObj.height;
+                var pieceWidth = Math.round(imageWidth/horizontalPieces);
+                var pieceHeight = Math.round(imageHeight/verticalPieces);
+                var stage = new Kinetic.Stage({
+                        container: "container",
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                });
+                var layer = new Kinetic.Layer();
+          for(i=0;i<horizontalPieces;i++){
+                  for(j=0;j<verticalPieces;j++){
+                          var n = j+i*verticalPieces;
+                                piecesArray[n] = new Kinetic.Image({
+                                  image: imageObj,
+                                  crop:{
+                                                x: i*pieceWidth, 
+                                                y: j*pieceHeight,
+                                                width: pieceWidth,
+                                                height: pieceHeight
+                                        },
+                                        x: i*pieceWidth+i,
+                                  y: j*pieceHeight+j,
+                                  width: pieceWidth,
+                                  height: pieceHeight,
+                                  draggable: true
+                                });
+                                piecesArray[n].on("mouseover", function(){
+                                  document.body.style.cursor = "pointer";
+                                });
+                                piecesArray[n].on("mouseout", function(){
+                                  document.body.style.cursor = "default";
+                                }); 
+                                piecesArray[n].on("dragstart", function(){
+                                        this.moveToTop();
+                              });              
+                                   layer.add(piecesArray[n]);
+                        }
+             }
+                stage.add(layer);
+        }
+        function jigsaw(){
+                var imageObj = new Image();
+                imageObj.src = "brave.jpg";
+             imageObj.onload = function(){
+                        drawImage(this);
+             }
+     }
+        </script>
+</head>
+
+<body onload="jigsaw()">
+        <div id="container"></div>
+</body>
+
+</html>
