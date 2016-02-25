@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{margin: 0;padding: 0;}
+	div{
+		width: 500px;
+		height: 500px;
+		margin: 0 auto;
+		background: deeppink;
+	}
+	ul{
+		overflow: hidden;
+		width: 500px;
+		margin: 0 auto;
+	}
+	li{
+		float: left;
+		width: 125px;
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		font-size: Arial;
+		color: #FFF;
+		background: skyblue;
+		list-style: none;
+	}
+	#img{
+		width: 500px;
+		height: 500px;
+	}
+	</style>
+</head>
+<body>
+	<ul>
+		<li style="background:orange;">Spring</li>
+		<li>Summer</li>
+		<li>Autumn</li>
+		<li>Winter</li>
+	</ul>
+	<div>
+		<img src="" alt="" id="img">
+	</div>
+	<script>
+	var oLi = document.getElementsByTagName('li');
+	var oImg = document.getElementById("img");
+	var reg = /h.+/;
+	var IMGSRC;
+	var xhr = new XMLHttpRequest();
+		xhr.open("GET","http://180.76.185.227/lv/tab.php?"+new Date().getTime(),true);
+		xhr.send(null);
+		xhr.onload = function(){
+			// oImg.src = xhr.responseText.split(";")[_this.index].match(reg)[0];
+			IMGSRC = xhr.responseText;
+		}
+	for(var i=0;i<oLi.length;i++){
+		oLi[i].index = i;
+		oLi[i].onclick = function(){
+			var _this = this;
+			for(var i=0;i<oLi.length;i++){
+				oLi[i].style.background = "";
+			}
+			this.style.background = "orange";
+			oImg.src = IMGSRC.split(";")[_this.index].match(reg)[0];
+		}
+	}
+	</script>
+</body>
+</html>
